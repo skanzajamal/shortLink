@@ -38,13 +38,13 @@ public class TinyUrlController {
 
         // if valid url, generate a hash key using guava's murmur3 hashing algorithm
         final UrlDto urlDto = UrlDto.create(url);
-        log.info("URl id generated = {}", urlDto.getId());
+        log.info("shortUrl generated = {}", urlDto.getShortUrl());
 
         // store both hashing key and url object in redis
-        redisTemplate.opsForValue().set(urlDto.getId(), urlDto, Long.parseLong(ttl), TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(urlDto.getShortUrl(), urlDto, Long.parseLong(ttl), TimeUnit.SECONDS);
 
-        // return the generated id as response header
-        return ResponseEntity.noContent().header("id", urlDto.getId()).build();
+        // return the generated shortUrl as response header
+        return ResponseEntity.noContent().header("shortUrl", urlDto.getShortUrl()).build();
     }
 
 
@@ -59,7 +59,7 @@ public class TinyUrlController {
             log.info("url retrieved = {}", urlDto.getUrl());
         }
 
-        return ResponseEntity.ok(urlDto);
+        return ResponseEntity.ok(urlDto.getUrl());
     }
 
 } //ENDCLASS
