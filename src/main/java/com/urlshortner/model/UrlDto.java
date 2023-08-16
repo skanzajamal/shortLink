@@ -12,15 +12,13 @@ import java.time.LocalDateTime;
 public class UrlDto {
 
     private final String id;
-    private final String shortUrl;
     private final String url;
     private final LocalDateTime created;
 
     public static UrlDto create(final String url) {
 
         final String id = Hashing.murmur3_32().hashString(url, StandardCharsets.UTF_8).toString();
-        final String shortUrl = "http://short.est/" + id;
-        return new UrlDto(id, shortUrl, url, LocalDateTime.now());
+        return new UrlDto(id, url, LocalDateTime.now());
     }
 
 } //ENDCLASS

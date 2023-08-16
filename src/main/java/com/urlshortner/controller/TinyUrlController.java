@@ -38,13 +38,15 @@ public class TinyUrlController {
 
         // if valid url, generate a hash key using guava's murmur3 hashing algorithm
         final UrlDto urlDto = UrlDto.create(url);
-        log.info("shortUrl generated = {}", urlDto.getShortUrl());
+        log.info("id generated = {}", urlDto.getId());
 
         // store both hashing key and url object in redis
-        redisTemplate.opsForValue().set(urlDto.getShortUrl(), urlDto, Long.parseLong(ttl), TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(urlDto.getId(), urlDto, Long.parseLong(ttl), TimeUnit.SECONDS);
+
+        var shortUrl = "http://short.est/" + urlDto.getId();
 
         // return the generated shortUrl as response header
-        return ResponseEntity.noContent().header("shortUrl", urlDto.getShortUrl()).build();
+        return ResponseEntity.noContent().header("shortUrl", shortUrl).build();
     }
 
 
